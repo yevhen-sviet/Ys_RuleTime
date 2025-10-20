@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Created by Yevhen Sviet
+ */
+ -->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="ys_salesrule_time" resource="default" engine="innodb" comment="Exact time window for sales rules">
+        <column name="rule_id"   xsi:type="int" unsigned="true" nullable="false" comment="FK to salesrule.rule_id"/>
+        <column name="from_time" xsi:type="varchar" length="8"  nullable="true"  comment="HH:MM:SS"/>
+        <column name="to_time"   xsi:type="varchar" length="8"  nullable="true"  comment="HH:MM:SS"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="rule_id"/>
+        </constraint>
+
+        <constraint xsi:type="foreign" referenceId="FK_YS_RULETIME_RULE"
+                    table="ys_salesrule_time" column="rule_id"
+                    referenceTable="salesrule" referenceColumn="rule_id"
+                    onDelete="CASCADE"/>
+    </table>
+</schema>
