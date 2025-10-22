@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Created by Yevhen Sviet
+ */
+ -->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <fieldset name="rule_information">
+        <field name="ys_ruletime_from_time">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">
+                        From Time
+                    </item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">date</item>
+                    <item name="component" xsi:type="string">
+                        Magento_Ui/js/form/element/date
+                    </item>
+                    <item name="options" xsi:type="array">
+                        <item name="timeOnly" xsi:type="boolean">true</item>
+                        <item name="showsTime" xsi:type="boolean">true</item>
+                        <item name="timeFormat" xsi:type="string">HH:mm</item>
+                        <item name="buttonText" xsi:type="string">Select time</item>
+                    </item>
+                    <item name="validation" xsi:type="array">
+                        <item name="validate-time" xsi:type="boolean">true</item>
+                    </item>
+                    <item name="notice" xsi:type="string">If empty, only dates will be used(if any selected).</item>
+                    <item name="sortOrder" xsi:type="number">180</item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="ys_ruletime_to_time">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">
+                        To Time
+                    </item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">date</item>
+                    <item name="component" xsi:type="string">
+                        Magento_Ui/js/form/element/date
+                    </item>
+                    <item name="options" xsi:type="array">
+                        <item name="timeOnly" xsi:type="boolean">true</item>
+                        <item name="showsTime" xsi:type="boolean">true</item>
+                        <item name="timeFormat" xsi:type="string">HH:mm</item>
+                        <item name="buttonText" xsi:type="string">Select time</item>
+                    </item>
+                    <item name="validation" xsi:type="array">
+                        <item name="validate-time" xsi:type="boolean">true</item>
+                    </item>
+                    <item name="notice" xsi:type="string">Website timezone is used. From/to times are used together. It will not save values if one of them is empty.</item>
+                    <item name="sortOrder" xsi:type="number">190</item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+</form> 
