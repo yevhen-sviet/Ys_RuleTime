@@ -4,9 +4,17 @@
  */
 namespace Ys\RuleTime\Api;
 
+use Ys\RuleTime\Api\Data\TimeInterface;
+
 interface TimeRepositoryInterface
 {
-    public function getByRuleId(int $ruleId): ?\stdClass;
-    public function saveTimes(int $ruleId, string $fromTime, string $toTime): void;
-    public function deleteIfExists(int $ruleId): void;
+    public function save(TimeInterface $entity): TimeInterface;
+
+    public function getById(int $ruleId): TimeInterface;
+
+    public function getByRuleId(int $ruleId): TimeInterface;
+
+    public function delete(TimeInterface $entity): bool;
+
+    public function deleteById(int $ruleId): bool;
 }
