@@ -6,11 +6,11 @@
  -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Config/etc/config.xsd">
-  <default>
-    <ys_ruletime>
-      <general>
-        <enable>0</enable>
-      </general>
-    </ys_ruletime>
-  </default>
+    <default>
+        <ys_ruletime>
+            <general>
+                <enable>0</enable>
+            </general>
+        </ys_ruletime>
+    </default>
 </config>

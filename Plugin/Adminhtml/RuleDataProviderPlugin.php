@@ -6,11 +6,25 @@ namespace Ys\RuleTime\Plugin\Adminhtml;
 
 use Magento\SalesRule\Model\Rule\DataProvider;
 use Ys\RuleTime\Api\TimeRepositoryInterface;
+use Ys\RuleTime\Helper\Data as Helper;
 
 class RuleDataProviderPlugin
 {
-    public function __construct(private TimeRepositoryInterface $repository) {}
+    /**
+     * @param TimeRepositoryInterface $repository
+     * @param Helper $helper
+     */
+    public function __construct(
+        private TimeRepositoryInterface $repository,
+        private Helper $helper) 
+    {
+    }
 
+    /**
+     * @param DataProvider $subject
+     * @param array $result
+     * @return array
+     */
     public function afterGetData(DataProvider $subject, array $result): array
     {
         foreach ($result as $ruleId => &$ruleData) {
@@ -27,6 +41,11 @@ class RuleDataProviderPlugin
         return $result;
     }
 
+    /**
+     * @param DataProvider $subject
+     * @param array $meta
+     * @return array
+     */
     public function afterGetMeta(DataProvider $subject, array $meta): array
     {
         $status = $this->helper->isEnabled(null);

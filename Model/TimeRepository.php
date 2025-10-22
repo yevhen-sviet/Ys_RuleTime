@@ -13,11 +13,20 @@ use Ys\RuleTime\Model\ResourceModel\Time as TimeResource;
 
 class TimeRepository implements TimeRepositoryInterface
 {
+    /**
+     * @param TimeResource $resource
+     * @param \Ys\RuleTime\Model\TimeFactory $factory
+     */
     public function __construct(
         private TimeResource $resource,
         private \Ys\RuleTime\Model\TimeFactory $factory
     ) {}
 
+    /**
+     * @param TimeInterface $entity
+     * @return TimeInterface
+     * @throws CouldNotSaveException
+     */
     public function save(TimeInterface $entity): TimeInterface
     {
         try {
@@ -37,6 +46,11 @@ class TimeRepository implements TimeRepositoryInterface
         }
     }
 
+    /**
+     * @param int $ruleId
+     * @return TimeInterface
+     * @throws NoSuchEntityException
+     */
     public function getById(int $ruleId): TimeInterface
     {
         $model = $this->factory->create();
@@ -47,11 +61,21 @@ class TimeRepository implements TimeRepositoryInterface
         return $model;
     }
 
+    /**
+     * @param int $ruleId
+     * @return TimeInterface
+     * @throws NoSuchEntityException
+     */
     public function getByRuleId(int $ruleId): TimeInterface
     {
         return $this->getById($ruleId);
     }
 
+    /**
+     * @param TimeInterface $entity
+     * @return bool
+     * @throws CouldNotDeleteException
+     */
     public function delete(TimeInterface $entity): bool
     {
         try {
@@ -65,6 +89,11 @@ class TimeRepository implements TimeRepositoryInterface
         }
     }
 
+    /**
+     * @param int $ruleId
+     * @return bool
+     * @throws CouldNotDeleteException
+     */
     public function deleteById(int $ruleId): bool
     {
         return $this->delete($this->getById($ruleId));

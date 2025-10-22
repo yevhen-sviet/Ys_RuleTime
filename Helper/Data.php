@@ -1,4 +1,7 @@
 <?php
+/**
+ * Created by Yevhen Sviet
+ */
 namespace Ys\RuleTime\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
@@ -7,10 +10,24 @@ use Magento\Store\Model\StoreManagerInterface;
 
 class Data extends AbstractHelper
 {
+    /**
+     * Path to enabled config
+     */
     public const XML_PATH_ENABLED = 'ys_ruletime/general/enable';
 
-    public function __construct(private StoreManagerInterface $storeManager) {}
+    /**
+     * @param StoreManagerInterface $storeManager
+     */
+    public function __construct(private StoreManagerInterface $storeManager)
+    {
+    }
 
+    /**
+     * Check if module is enabled
+     *
+     * @param int|null $websiteId
+     * @return bool
+     */
     public function isEnabled(?int $websiteId = null): bool
     {
         if ($websiteId === null) {

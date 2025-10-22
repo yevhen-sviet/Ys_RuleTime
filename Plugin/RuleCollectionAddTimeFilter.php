@@ -1,4 +1,7 @@
 <?php
+/**
+ * Created by Yevhen Sviet
+ */
 namespace Ys\RuleTime\Plugin;
 
 use Magento\SalesRule\Model\ResourceModel\Rule\Collection as RuleCollection;
@@ -7,11 +10,23 @@ use Ys\RuleTime\Helper\Data as Helper;
 
 class RuleCollectionAddTimeFilter
 {
+    /**
+     * @param TimezoneInterface $tz
+     * @param Helper $helper
+     */
     public function __construct(
         private TimezoneInterface $tz,
         private Helper $helper
     ) {}
-
+    
+    /**
+     * @param RuleCollection $subject
+     * @param \Closure $proceed
+     * @param int $websiteId
+     * @param int $customerGroupId
+     * @param string|null $now
+     * @return RuleCollection
+     */
     public function aroundAddWebsiteGroupDateFilter(
         RuleCollection $subject,
         \Closure $proceed,

@@ -10,6 +10,9 @@ use Ys\RuleTime\Model\ResourceModel\Time as ResourceModel;
 
 class Collection extends AbstractCollection
 {
+    /**
+     * Defines resource model
+     */
     protected function _construct()
     {
         $this->_init(Model::class, ResourceModel::class);
