@@ -4,11 +4,11 @@
  */
 namespace Ys\RuleTime\Helper;
 
-use Magento\Framework\App\Helper\AbstractHelper;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
 
-class Data extends AbstractHelper
+class Data
 {
     /**
      * Path to enabled config
@@ -16,11 +16,13 @@ class Data extends AbstractHelper
     public const XML_PATH_ENABLED = 'ys_ruletime/general/enable';
 
     /**
+     * @param ScopeConfigInterface $cfg
      * @param StoreManagerInterface $storeManager
      */
-    public function __construct(private StoreManagerInterface $storeManager)
-    {
-    }
+    public function __construct(
+        private ScopeConfigInterface $cfg,
+        private StoreManagerInterface $storeManager
+    ) {}
 
     /**
      * Check if module is enabled
@@ -33,19 +35,19 @@ class Data extends AbstractHelper
         if ($websiteId === null) {
             try {
                 $websiteId = (int)$this->storeManager->getStore()->getWebsiteId();
-            } catch (\Throwable $e) {
+            } catch (\Throwable) {
                 $websiteId = null;
             }
         }
 
         if ($websiteId !== null) {
-            return $this->scopeConfig->isSetFlag(
+            return $this->cfg->isSetFlag(
                 self::XML_PATH_ENABLED,
                 ScopeInterface::SCOPE_WEBSITE,
                 $websiteId
             );
         }
 
-        return $this->scopeConfig->isSetFlag(self::XML_PATH_ENABLED);
+        return $this->cfg->isSetFlag(self::XML_PATH_ENABLED);
     }
 }

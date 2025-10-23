@@ -20,14 +20,14 @@ interface TimeRepositoryInterface
      * @return TimeInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function getById(int $ruleId): TimeInterface;
+    public function getById(int $ruleId): ?TimeInterface;
 
     /**
      * @param int $ruleId
      * @return TimeInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function getByRuleId(int $ruleId): TimeInterface;
+    public function getByRuleId(int $ruleId): ?TimeInterface;
 
     /**
      * @param TimeInterface $entity

@@ -10,24 +10,29 @@
         <field name="ys_ruletime_from_time">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="label" xsi:type="string" translate="true">
-                        From Time
+                    <item name="dataScope" xsi:type="string">rule.ys_ruletime_from_time</item>
+                    <item name="imports" xsi:type="array">
+                        <item name="visible" xsi:type="string">${ $.provider }:data.rule.ys_ruletime_enabled</item>
                     </item>
-                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">From Time</item>
+                    <item name="template" xsi:type="string">ui/form/field</item>
+                    <item name="elementTmpl" xsi:type="string">ui/form/element/date</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/form/element/date</item>
                     <item name="formElement" xsi:type="string">date</item>
-                    <item name="component" xsi:type="string">
-                        Magento_Ui/js/form/element/date
-                    </item>
+                    <item name="dataType" xsi:type="string">text</item>
                     <item name="options" xsi:type="array">
-                        <item name="timeOnly" xsi:type="boolean">true</item>
+                        <item name="dateFormat" xsi:type="string">yy-mm-dd</item>
                         <item name="showsTime" xsi:type="boolean">true</item>
+                        <item name="timeOnly" xsi:type="boolean">true</item>
                         <item name="timeFormat" xsi:type="string">HH:mm</item>
                         <item name="buttonText" xsi:type="string">Select time</item>
                     </item>
+
                     <item name="validation" xsi:type="array">
                         <item name="validate-time" xsi:type="boolean">true</item>
                     </item>
-                    <item name="notice" xsi:type="string">If empty, only dates will be used(if any selected).</item>
+
+                    <item name="notice" xsi:type="string">Website timezone is used.</item>
                     <item name="sortOrder" xsi:type="number">180</item>
                 </item>
             </argument>
@@ -36,25 +41,40 @@
         <field name="ys_ruletime_to_time">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="label" xsi:type="string" translate="true">
-                        To Time
+                    <item name="dataScope" xsi:type="string">rule.ys_ruletime_to_time</item>
+                    <item name="imports" xsi:type="array">
+                        <item name="visible" xsi:type="string">${ $.provider }:data.rule.ys_ruletime_enabled</item>
                     </item>
-                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">To Time</item>
+                    <item name="template" xsi:type="string">ui/form/field</item>
+                    <item name="elementTmpl" xsi:type="string">ui/form/element/date</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/form/element/date</item>
                     <item name="formElement" xsi:type="string">date</item>
-                    <item name="component" xsi:type="string">
-                        Magento_Ui/js/form/element/date
-                    </item>
+                    <item name="dataType" xsi:type="string">text</item>
                     <item name="options" xsi:type="array">
-                        <item name="timeOnly" xsi:type="boolean">true</item>
+                        <item name="dateFormat" xsi:type="string">yy-mm-dd</item>
                         <item name="showsTime" xsi:type="boolean">true</item>
+                        <item name="timeOnly" xsi:type="boolean">true</item>
                         <item name="timeFormat" xsi:type="string">HH:mm</item>
                         <item name="buttonText" xsi:type="string">Select time</item>
                     </item>
                     <item name="validation" xsi:type="array">
                         <item name="validate-time" xsi:type="boolean">true</item>
                     </item>
-                    <item name="notice" xsi:type="string">Website timezone is used. From/to times are used together. It will not save values if one of them is empty.</item>
+                    <item name="notice" xsi:type="string">Website timezone is used.</item>
                     <item name="sortOrder" xsi:type="number">190</item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="ys_ruletime_enabled">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string"></item>
+                    <item name="formElement" xsi:type="string">hidden</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="dataScope" xsi:type="string">rule.ys_ruletime_enabled</item>
+                    <item name="sortOrder" xsi:type="number">200</item>
                 </item>
             </argument>
         </field>

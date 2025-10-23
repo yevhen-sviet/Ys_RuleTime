@@ -16,7 +16,6 @@ class Time extends AbstractModel implements TimeInterface
     protected function _construct()
     {
         $this->_init(TimeResource::class);
-        $this->setIdFieldName(self::RULE_ID);
     }
 
     /**

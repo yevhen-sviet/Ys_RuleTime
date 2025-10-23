@@ -30,19 +30,39 @@ class TimeRepository implements TimeRepositoryInterface
     public function save(TimeInterface $entity): TimeInterface
     {
         try {
+            if ($this->getById($entity->getRuleId()) === null) {
+                $connection  = $this->resource->getConnection();
+                $table = $this->resource->getMainTable();
+
+                $connection->insertOnDuplicate(
+                    $table,
+                    [
+                        'rule_id'   => $entity->getRuleId(),
+                        'from_time' => $entity->getFromTime(),
+                        'to_time'   => $entity->getToTime(),
+                    ],
+                    ['from_time', 'to_time']
+                );
+                $model = $this->factory->create();
+                $this->resource->load($model, $entity->getRuleId());
+                return $model;
+            }
+
             /** @var \Ys\RuleTime\Model\Time $model */
             $model = ($entity instanceof \Ys\RuleTime\Model\Time)
                 ? $entity
                 : $this->factory->create()->setData([
                     TimeInterface::RULE_ID   => $entity->getRuleId(),
                     TimeInterface::FROM_TIME => $entity->getFromTime(),
-                    TimeInterface::TO_TIME   => $entity->getToTime(),
+                    TimeInterface::TO_TIME   => $entity->getToTime()
                 ]);
-
             $this->resource->save($model);
             return $model;
         } catch (\Throwable $e) {
-            throw new CouldNotSaveException(__('Could not save time entity: %1', $e->getMessage()), $e);
+            throw new \Magento\Framework\Exception\CouldNotSaveException(
+                __('Could not save time entity: %1', $e->getMessage()),
+                $e
+            );
         }
     }
 
@@ -51,14 +71,11 @@ class TimeRepository implements TimeRepositoryInterface
      * @return TimeInterface
      * @throws NoSuchEntityException
      */
-    public function getById(int $ruleId): TimeInterface
+    public function getById(int $ruleId): ?TimeInterface
     {
         $model = $this->factory->create();
         $this->resource->load($model, $ruleId);
-        if (!$model->getId()) {
-            throw new NoSuchEntityException(__('Time entity with rule_id "%1" does not exist.', $ruleId));
-        }
-        return $model;
+        return $model->getId() ? $model : null;
     }
 
     /**
@@ -66,7 +83,7 @@ class TimeRepository implements TimeRepositoryInterface
      * @return TimeInterface
      * @throws NoSuchEntityException
      */
-    public function getByRuleId(int $ruleId): TimeInterface
+    public function getByRuleId(int $ruleId): ?TimeInterface
     {
         return $this->getById($ruleId);
     }
