@@ -1,4 +1,7 @@
 <?php
+/**
+ * Created by Yevhen Sviet
+ */
 namespace Ys\RuleTime\Plugin;
 
 use Magento\SalesRule\Model\Rule;
@@ -9,12 +12,22 @@ use Ys\RuleTime\Helper\Data as Helper;
 
 class RuleIsActiveTime
 {
+    /**
+     * @param TimeRepositoryInterface $repo
+     * @param TimezoneInterface $tz
+     * @param Helper $helper
+     */
     public function __construct(
         private TimeRepositoryInterface $repo,
         private TimezoneInterface $tz,
         private Helper $helper
     ) {}
 
+    /**
+     * @param Rule $rule
+     * @param bool $result
+     * @return bool
+     */
     public function afterGetIsActive(Rule $rule, $result)
     {
         if (!$result) {
