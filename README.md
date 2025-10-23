@@ -44,3 +44,13 @@ bin/magento cache:flush
 3) Re-deploy static content if you’re on production mode:
 
 bin/magento setup:static-content:deploy -f
+
+
+Tested on Magento Open Source v2.4.8-p2:
+![Alt text](/../screens/screens/1.png?raw=true)
+![Alt text](/../screens/screens/2.png?raw=true)
+![Alt text](/../screens/screens/3.png?raw=true)
+
+
+Special Note:
+- Calendar selector appears with offset at rule edit page, need to add some styles to fix positioning.
