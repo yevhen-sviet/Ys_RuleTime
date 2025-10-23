@@ -28,7 +28,7 @@ class RuleCollectionAddTimeFilter
      * @return RuleCollection
      */
     public function aroundAddWebsiteGroupDateFilter(
-        RuleCollection $subject,
+        \Magento\SalesRule\Model\ResourceModel\Rule\Collection $subject,
         \Closure $proceed,
         $websiteId,
         $customerGroupId,
@@ -41,48 +41,36 @@ class RuleCollectionAddTimeFilter
         }
 
         $nowDt   = $this->tz->date();
-        $today   = $nowDt->format('Y-m-d');
         $nowTime = $nowDt->format('H:i:s');
 
         $conn   = $subject->getConnection();
         $select = $subject->getSelect();
 
-        $select->joinLeft(
-            ['ysrt' => $subject->getTable('ys_salesrule_time')],
-            'ysrt.rule_id = main_table.rule_id',
-            []
-        );
+        $fromParts = $select->getPart(\Zend_Db_Select::FROM);
+        if (!isset($fromParts['ysrt'])) {
+            $select->joinLeft(
+                ['ysrt' => $subject->getTable('ys_salesrule_time')],
+                'ysrt.rule_id = main_table.rule_id',
+                []
+            );
+        }
 
-        $sameDay = $conn->quoteInto(
-            "NOT (
-                main_table.from_date = ?
-                AND main_table.to_date = ?
-                AND (ysrt.from_time IS NOT NULL OR ysrt.to_time IS NOT NULL)
+        $qNow     = $conn->quote($nowTime);
+        $qMinTime = $conn->quote('00:00:00');
+        $qMaxTime = $conn->quote('23:59:59');
+
+        $select->where(sprintf(
+            'NOT (
+                (ysrt.from_time IS NOT NULL OR ysrt.to_time IS NOT NULL)
                 AND NOT (
-                    COALESCE(ysrt.from_time,'00:00:00') <= ?
-                    AND ? <= COALESCE(ysrt.to_time,'23:59:59')
+                    COALESCE(ysrt.from_time, %1$s) <= %2$s
+                    AND %2$s <= COALESCE(ysrt.to_time, %3$s)
                 )
-            )",
-            [$today, $today, $nowTime, $nowTime]
-        );
-        $from = $conn->quoteInto(
-            'NOT (
-                main_table.from_date = ? 
-                AND ysrt.from_time IS NOT NULL 
-                AND ? < ysrt.from_time
             )',
-            [$today, $nowTime]
-        );
-        $to = $conn->quoteInto(
-            'NOT (
-                main_table.to_date = ? 
-                AND ysrt.to_time IS NOT NULL 
-                AND ? > ysrt.to_time
-            )',
-            [$today, $nowTime]
-        );
-
-        $select->where($sameDay . ' AND ' . $from . ' AND ' . $to);
+            $qMinTime,
+            $qNow,
+            $qMaxTime
+        ));
 
         return $result;
     }
