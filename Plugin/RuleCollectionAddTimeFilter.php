@@ -40,14 +40,12 @@ class RuleCollectionAddTimeFilter
             return $result;
         }
 
-        // Current website/store-local time
         $nowDt   = $this->tz->date();
         $nowTime = $nowDt->format('H:i:s');
 
         $conn   = $subject->getConnection();
         $select = $subject->getSelect();
 
-        // Join ys_salesrule_time once (skip if already present)
         $fromParts = $select->getPart(\Zend_Db_Select::FROM);
         if (!isset($fromParts['ysrt'])) {
             $select->joinLeft(
@@ -57,12 +55,10 @@ class RuleCollectionAddTimeFilter
             );
         }
 
-        // Pre-quote scalars to avoid adapter quirks with array binds
         $qNow     = $conn->quote($nowTime);
         $qMinTime = $conn->quote('00:00:00');
         $qMaxTime = $conn->quote('23:59:59');
 
-        // Daily window guard: if a rule has any time bound, exclude it when NOW is outside [from..to]
         $select->where(sprintf(
             'NOT (
                 (ysrt.from_time IS NOT NULL OR ysrt.to_time IS NOT NULL)
@@ -71,13 +67,10 @@ class RuleCollectionAddTimeFilter
                     AND %2$s <= COALESCE(ysrt.to_time, %3$s)
                 )
             )',
-            $qMinTime, // %1$s
-            $qNow,     // %2$s
-            $qMaxTime  // %3$s
+            $qMinTime,
+            $qNow,
+            $qMaxTime
         ));
-
-        // Optional debugging:
-        // @file_put_contents(BP.'/var/log/ys_ruletime_sql.log', '['.date('H:i:s')."] now=$nowTime\n".$select."\n\n", FILE_APPEND);
 
         return $result;
     }
